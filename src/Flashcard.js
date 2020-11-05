@@ -12,7 +12,11 @@ function setMaxheight() {
    setHeight(Math.max(frontHeight, backHeight, 100))
 }
 
-useEffect(setMaxheight, [flashcard.question,flashcard.answer, flashcard.options])
+useEffect(setMaxheight, [flashcard.question,flashcard.answer, flashcard.options]);
+useEffect(()=>{
+    window.addEventListener("resize",setMaxheight)
+    return () => window.removeEventListener("resize",setMaxheight)
+}, [])
     return (
         <div 
         style={{height: height}}
@@ -23,7 +27,7 @@ useEffect(setMaxheight, [flashcard.question,flashcard.answer, flashcard.options]
             {flashcard.question}
             <div className="flashcard.options">
                 {flashcard.options.map(option => {
-                    return <div className="flashcard-option">{option}</div>
+                    return <div className="flashcard-option" key={option}>{option}</div>
                 })}
             </div>
         </div>
